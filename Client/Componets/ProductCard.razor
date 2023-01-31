@@ -1,0 +1,26 @@
+﻿@using DTO;
+
+<RadzenCard Class="m-3">
+    <div class="d-flex flex-row p-3">
+        <RadzenImage Path="@urlImg()" Class="rounded-circle float-start me-3" Style="width: 100px; height: 100px;" />
+        <div>
+            <RadzenText TextStyle="TextStyle.Overline" Class="d-flex mt-1 mb-0">Name</RadzenText>
+            <RadzenText TextStyle="TextStyle.Body1"><b>@product?.Name</b></RadzenText>
+            <RadzenText TextStyle="TextStyle.Overline" Class="d-flex mt-3 mb-0">Price</RadzenText>            
+            <RadzenText TextStyle="TextStyle.Body1"><b>@String.Format(new System.Globalization.CultureInfo("en-US"), "{0:C}", product?.Price)</b></RadzenText>
+        </div>
+    </div>    
+    <div class="text-end">        
+        <RadzenButton Variant="Variant.Text" Text="Add" />
+    </div>
+</RadzenCard>
+@code {
+    [Parameter]
+    public Product product { get; set; }
+
+    private string urlImg()
+    {
+        return $"/images/Products/{product.image}";
+    }
+
+}
