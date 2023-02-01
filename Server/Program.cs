@@ -1,3 +1,4 @@
+using BlazorShpoRadzen.Client.DTO;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Hosting.Server.Features;
 using Radzen;
@@ -12,6 +13,7 @@ builder.Services.AddScoped<DialogService>();
 builder.Services.AddScoped<NotificationService>();
 builder.Services.AddScoped<TooltipService>();
 builder.Services.AddScoped<ContextMenuService>();
+builder.Services.AddScoped<ShoppingCarContainer>();
 builder.Services.AddSingleton(sp =>
 {
     // Get the address that the app is currently running at

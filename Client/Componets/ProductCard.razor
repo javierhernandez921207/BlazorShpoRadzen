@@ -1,8 +1,8 @@
 ﻿@using DTO;
-
+@inject ShoppingCarContainer shopingCar
 <RadzenCard Class="m-3">
     <div class="d-flex flex-row p-3">
-        <RadzenImage Path="@urlImg()" Class="rounded-circle float-start me-3" Style="width: 100px; height: 100px;" />
+        <RadzenImage Path="@urlImg()" Class="float-start me-3" Style="width: 100px;  max-height: 100px;" />
         <div>
             <RadzenText TextStyle="TextStyle.Overline" Class="d-flex mt-1 mb-0">Name</RadzenText>
             <RadzenText TextStyle="TextStyle.Body1"><b>@product?.Name</b></RadzenText>
@@ -11,7 +11,7 @@
         </div>
     </div>    
     <div class="text-end">        
-        <RadzenButton Variant="Variant.Text" Text="Add" />
+        <RadzenButton ButtonStyle="ButtonStyle.Primary" Text="Add" Click="AddProduct" />
     </div>
 </RadzenCard>
 @code {
@@ -21,6 +21,11 @@
     private string urlImg()
     {
         return $"/images/Products/{product.image}";
+    }
+
+    public void AddProduct()
+    {
+        shopingCar.AddProduct(product, 1);   
     }
 
 }

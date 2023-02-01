@@ -1,0 +1,60 @@
+﻿@page "/shopping-car"
+@using DTO
+@using System.Collections.Concurrent;
+@implements IDisposable
+@inject ShoppingCarContainer shopingCar
+<h5>Shopping Car</h5>
+<RadzenDataList WrapItems="true" AllowPaging="true" Data="@products" TItem="ProductCar">
+    <Template Context="product">
+        <RadzenCard Style="width: 100%; padding: 0; overflow: hidden;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 p-3 product-title">
+                        <RadzenImage Path="@urlImg(product.product)" Class="float-start me-3" Style="width: 100px; max-height: 100px;" />
+                        </div>
+                        <div class="col-lg-7 p-3">
+                            <div class="row d-flex">                               
+                                <div class="col-md-6 col-lg-2">
+                                    <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="mb-0">Name</RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Body2" class="mb-sm-2 mb-lg-0 rz-color-secondary">@(product.product.Name)</RadzenText>
+                                </div>
+                                <div class="col-md-6 col-lg-5">
+                                    <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H5" class="mb-0">Count</RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Body2" class="mb-sm-2 mb-lg-0">@(product.count)</RadzenText>
+                                </div>
+                                <div class="col-md-6 order-first order-lg-last col-lg-3 text-sm-start text-lg-end mb-3 mb-lg-0">
+                                    <RadzenBadge BadgeStyle="BadgeStyle.Secondary" Shade="Shade.Lighter" Class="price-badge" Text=@($"{String.Format(new System.Globalization.CultureInfo("en-US"), "{0:C}", product.product.Price * product.count)}") />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 p-3">
+                            <RadzenButton ButtonStyle="ButtonStyle.Secondary" Click="(e => RemoveProduct(product))" Text="Remove" Class="w-100" />
+                        </div>
+                    </div>
+                </div>
+            </RadzenCard>
+    </Template>
+</RadzenDataList>
+
+    @code {
+    private List<ProductCar> products = new List<ProductCar>();
+
+    protected override void OnInitialized()
+    {
+        shopingCar.ProductsChangeEvent += StateHasChanged;
+        products = shopingCar.Products;
+    }
+    public void Dispose()
+    {
+        shopingCar.ProductsChangeEvent -= StateHasChanged;
+    }
+    private string urlImg(Product product)
+    {
+        return $"/images/Products/{product.image}";
+    }
+    private void RemoveProduct(ProductCar p)
+    {
+        products.Remove(p);
+        shopingCar.Notifi();
+    }
+}
